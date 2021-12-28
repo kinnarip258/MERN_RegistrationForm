@@ -2,12 +2,11 @@ import React, { useState} from "react";
 import { useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min"; 
 
-
 const RegistrationForm = () => {
 
     const history = useHistory();
     const [userData, setUserData] = useState({
-        Fname:"", Lname :"", Email :"", Password :"", Image :""
+        Fname:"", Lname :"", Email :"", Password :"",
     });
 
     let name, value;
@@ -34,13 +33,13 @@ const RegistrationForm = () => {
         const data = await res.json();
 
         if(data.status === 422 || !data) {
+
             window.alert("Invalid Registration");
-            console.log("Invalid Registration")
+            console.log("Invalid Registration");
         }
         else{
             window.alert("Registration Successfully");
-            console.log("Registration Successfully")
-
+            console.log("Registration Successfully");
             history.push('/Login');
         }
     }
@@ -71,12 +70,8 @@ const RegistrationForm = () => {
                         <input required name="CPassword" id="CPassword" value={userData.CPassword} onChange={handleInputs} type='password' placeholder="Enter Conform Password ..." />
 
 
-                        <input required value={userData.Img} onChange={handleInputs} type="file" name="Image" id= "image"/>
-                        {/* <select>
-                            <option>Select Role...</option>
-                            <option>User</option>
-                            <option>Admin</option>
-                        </select> */}
+                        {/* <input required value={userData.Img} onChange={handleInputs} type="file" name="Image" id= "image"/> */}
+                        
                         <button type="submit" onClick={handleSubmit}>Register</button>
                     </form>
                 </div>

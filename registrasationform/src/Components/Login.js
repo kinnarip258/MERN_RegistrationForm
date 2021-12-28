@@ -1,7 +1,32 @@
-import React from "react";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-
+import React, { useState } from "react";
+import { NavLink , useHistory} from "react-router-dom/cjs/react-router-dom.min";
+import Axios from "axios";
+import { useFormik } from "formik";
 const Login = () => {
+
+    const history = useHistory();
+    
+    const formik = useFormik({
+        initialValues: {
+            email: "", password: ""
+        },
+
+        onSubmit: (values) => {
+            Axios.post(`/signIn`,values)
+                .then((res) => {
+                    const data = res.data;
+                    alert("Login sucessfully!");
+                    console.log("Login sucessfully!");
+                    history.push('/Dashboard');
+                    
+                })
+                .catch(err => {
+                    alert("Invalid Credientials");
+                    console.log(err);
+                })
+            }
+    })
+    
 
     return(
         <>
@@ -11,12 +36,14 @@ const Login = () => {
                 </div>
                 <hr />
                 <div className="form_div">
-                    <form>
+                    <form onSubmit={formik.handleSubmit}>
                         <label>Username </label> 
-                        <input type='text' required placeholder="Enter Email ID..." />
+                        <input required type='text' name="email" value={formik.values.email}
+                         onChange={formik.handleChange} placeholder="Enter Email ID..." />
                         
                         <label>Password </label>
-                        <input type='password' required placeholder="Enter Password ..." />
+                        <input required type='password' name="password" value={formik.values.password}
+                         onChange={formik.handleChange} placeholder="Enter Password ..." />
                         
                         <button type="submit">Log In</button>
                     </form>

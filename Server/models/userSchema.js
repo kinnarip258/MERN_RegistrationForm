@@ -3,23 +3,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
-    Fname: {
+    fname: {
         type: String,
         required: true
     },
-    Lname: {
+    lname: {
         type: String,
         required: true
     },
-    Email: {
+    email: {
         type: String,
         required: true
     },
-    Password: {
+    password: {
         type: String,
         required: true
     },
-    CPassword: {
+    cpassword: {
         type: String,
         required: true  
     },
@@ -35,9 +35,9 @@ const userSchema = new mongoose.Schema({
 
 //hasing the password
 userSchema.pre('save', async function(next) {
-    if(this.isModified('Password')) {
-        this.Password = await bcrypt.hash(this.Password, 12);
-        this.CPassword = await bcrypt.hash(this.CPassword, 12);
+    if(this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 12);
+        this.cpassword = await bcrypt.hash(this.cpassword, 12);
     }
     next();
 });
