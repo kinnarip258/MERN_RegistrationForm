@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
+const authenticate = require("../middleware/authenticate");
 
 require('../db/conn');
 const User = require('../models/userSchema');
@@ -20,9 +22,9 @@ router.get('/getUsers', async (req,res) => {
 //register route
 router.post('/signUp', async (req,res) => {
 
-    const {fname, lname, email, password, cpassword} = req.body;
+    const {fname, lname, email, phone, profession, salary, password, cpassword} = req.body;
 
-    if(!fname || !lname || !email || !password || !cpassword){
+    if(!fname || !lname || !email || !phone || !profession || !salary || !password || !cpassword){
         return res.status(422 ).send({error: "please fill the field properly"});
     }
     try{
@@ -36,11 +38,18 @@ router.post('/signUp', async (req,res) => {
             return res.status(422).send({ error: "password are not matching!"});
         } 
         else{
-            const user = new User({fname, lname, email, password, cpassword});
+            const user = new User({fname, lname, email,phone, profession, salary, password, cpassword});
 
-            //save the user
-            await user.save();
-            
+
+            // const token = await user.generateAuthToken();
+
+            // res.cookie("jwtRegister", token, {
+            //     expires: new Date(Date.now() + 25892000000),
+            //     httpOnly: true
+            // })
+
+            const registered = await user.save();
+
             res.status(201).send({ message: "User sucessfully register."});  
         }
         
@@ -55,7 +64,7 @@ router.post('/signUp', async (req,res) => {
 
 router.post('/signIn', async (req,res) => {
    try{
-        let token;
+        let token ;
         const { email, password } = req.body;
 
         if(!email || !password) {
@@ -70,11 +79,10 @@ router.post('/signIn', async (req,res) => {
             token = await userLogin.generateAuthToken();
 
             //store the token in cookie
-            res.cookie("jwtoken", token, {
-                expires: new Date(Date.now() + 25892000000),
+            res.cookie("jwtLogin", token , {
+                expires: new Date(Date.now() + 3600000),
                 httpOnly: true
             });
-
             if(!isMatch){
                 res.status(400).send({ error: "Invalid Credientials!"});
             }
@@ -135,6 +143,12 @@ router.delete('/deleteUser/:id',async (req,res) => {
         console.log("error: ", err)
         res.send("error" + err)
     };
+});
+
+
+router.get('/dashboard', authenticate, (req,res) => {
+    console.log("hello my about");
+    res.send(req.authenticateUser);
 });
 
 
