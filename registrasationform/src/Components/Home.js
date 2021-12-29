@@ -8,8 +8,10 @@ const Home = () => {
                 
                 <NavLink to = '/Registration'>Registration</NavLink>
                     
-                <NavLink to = '/login'>Login</NavLink>
-                    
+                <NavLink to = '/Login'>Login</NavLink>
+
+                <NavLink to = '/Dashboard'>Dashboard</NavLink>
+    
             </div>
             <div className="header_div">
                 <h1>Welcome Home</h1>

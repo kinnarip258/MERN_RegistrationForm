@@ -1,80 +1,92 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import Axios from "axios";
-
+import { useHistory } from "react-router-dom";
 
 const Deshboard = () => {
-
+    //store the user data
     const [employeeList, setEmployeeList] = useState([]);
-    const serialNo = 0;
+    //destructuring the user data
+    const {_id, fname, lname, email, phone, profession, salary} = employeeList;
+    //navigate the page
+    const history = useHistory();
+    //get the employee data
     useEffect(() => {
-        Axios.get(`/getUsers`)
+        Axios.get(`/dashboard`)
         .then((res) => {
-            console.log("from deshboard res data: ", res.data)
             setEmployeeList(res.data)
+        })
+        .catch(err => {
+            //not authenticated then navigate to login page
+            console.log(err);
+            history.push('/Login')
         })
     }, [])
 
+    //delete the user
     const handleDelete = (id) => {
         Axios.delete(`/deleteUser/${id}`)
-
+        .then(() => {
+            window.location.reload();
+        })
         .catch(err => {
             console.log("error" + err);
         })
     }
+
     return(
         <>
             <div className="main_div">
+
                 <div className="header_div">
-                    <h1>User Deshboard</h1>
+                    <table style={{"width" : "100%"}}>
+                        <td><NavLink to = "/">Home</NavLink></td>                
+                        <td><NavLink to = "/Registration">Registration</NavLink></td>
+                        <td><NavLink to = "/Login">Login</NavLink></td>
+                    </table>   
                 </div>
-
-                <div className="nav_div">
-                    <label>All</label>
-                    <label>Active</label>
-                    <label>Deactive</label>
-                </div>
-
-                <div>
-                    <table style={{"width": "100%"}}>
-                        <tr>
-                            <th>Serial No.</th>
-                            <th>FullName</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </table>
-                </div>
+                
                 <div className="show_data">
-                {
-                        employeeList.map((ele) => {
-                            return(
-                                <div className = "eachitem" key = {ele.id}>
-                                    <table style={{"width" : "100%"}}>
-                                        <tr>
-                                            <td>{ele._id}</td>
-                                            <td>{ele.fname} {ele.lname}</td>
-                                            <td>{ele.email}</td>
-                                            <NavLink to={`/editUser/:?id=${ele._id}`}><button>Edit</button></NavLink>
-                                            <td><button onClick={() => handleDelete(ele._id)}>Delete</button></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+            
+                    <div className = "eachitem">
 
-                <div className="header_div">
-                    <NavLink to = "/">Home</NavLink>
-                </div>
-                <div className="header_div">
-                    <NavLink to = "/Registration">Registration</NavLink>
-                </div>
-                <div className="header_div">
-                    <NavLink to = "/Login">Login</NavLink>
+                            <div className="header_div">
+                                <h1>{` Welcome ${fname} ${lname}`}</h1>
+                            </div>
+
+                            <table>
+                                <tr>
+                                    <th>First Name</th>
+                                    <td>{fname} </td>
+                                </tr>
+                                <tr>          
+                                    <th>Last Name</th>
+                                    <td>{lname}</td>
+                                </tr>     
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{email}</td>
+                                </tr>     
+                                <tr>
+                                    <th>Phone Number</th>
+                                    <td>{phone}</td>
+                                </tr>
+                                <tr>
+                                    <th>Profession</th>
+                                    <td>{profession}</td>
+                                </tr>     
+                                <tr>
+                                    <th>Salary</th>
+                                    <td>{salary}</td>
+                                    </tr>
+                                        
+                            </table>
+
+                            <NavLink to={`/editUser/:?id=${_id}`}><button>Edit</button></NavLink>
+            
+                            <button onClick={() => handleDelete(_id)}>Delete</button>   
+    
+                    </div>
                 </div>
             </div>
         </>

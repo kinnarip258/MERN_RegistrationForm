@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { NavLink , useHistory} from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink , useHistory} from "react-router-dom";
 import Axios from "axios";
 import { useFormik } from "formik";
-const Login = () => {
 
+const Login = () => {
+    //navigate the page
     const history = useHistory();
     
     const formik = useFormik({
@@ -12,13 +13,11 @@ const Login = () => {
         },
 
         onSubmit: (values) => {
+            //login the user
             Axios.post(`/signIn`,values)
-                .then((res) => {
-                    const data = res.data;
+                .then(() => {
                     alert("Login sucessfully!");
-                    console.log("Login sucessfully!");
-                    history.push('/Dashboard');
-                    
+                    history.push('/Dashboard');  
                 })
                 .catch(err => {
                     alert("Invalid Credientials");
