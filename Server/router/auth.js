@@ -146,12 +146,11 @@ router.get('/logout',authenticate, async (req,res) => {
         req.authenticateUser.Tokens = req.authenticateUser.Tokens.filter((ele) => {
             return ele.token !== req.token
         })
-
         //clear cookie
         res.clearCookie("jwtLogin");
-
         await req.authenticateUser.save();
         res.status(200).send("User Logout");
+        res.send(req.authenticateUser);
     }
     catch(err){
         res.status(500).send(err);

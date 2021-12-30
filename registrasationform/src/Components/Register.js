@@ -3,6 +3,7 @@ import Axios from 'axios';
 import {useHistory, NavLink} from "react-router-dom";
 import {useFormik} from "formik";
 import queryString from "query-string";
+import Navbar from './Navbar';
 const Register = () => {
     //navigate the page
     const history = useHistory();
@@ -61,10 +62,11 @@ const Register = () => {
 
     return (
         <div>
+        <Navbar/>
             <div className="header_div">
                 <h1>Employee Form</h1>
             </div>
-            <hr />
+            {/* <hr /> */}
              <div className="form_div">
                 <form className="register_form" id="register_form" onSubmit={formik.handleSubmit}>
                     <label>First Name </label> 

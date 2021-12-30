@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink , useHistory} from "react-router-dom";
 import Axios from "axios";
 import { useFormik } from "formik";
+import Navbar from "./Navbar";
 
 const Login = () => {
     //navigate the page
@@ -30,10 +31,11 @@ const Login = () => {
     return(
         <>
             <div className="main_div">
+            <Navbar/>
                 <div className="header_div">
                     <h1>Login Form</h1>
                 </div>
-                <hr />
+                {/* <hr /> */}
                 <div className="form_div">
                     <form onSubmit={formik.handleSubmit}>
                         <label>Username </label> 

@@ -11,9 +11,10 @@ const Navbar = () => {
                 <NavLink to = '/Login'>Login</NavLink>
 
                 <NavLink to = '/Dashboard'>Dashboard</NavLink>
-    
+
                 <NavLink to = '/Logout'>Logout</NavLink>
             </div>
+            <hr/>
         </>
     )
 }

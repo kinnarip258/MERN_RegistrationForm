@@ -38,8 +38,7 @@ const Deshboard = () => {
     return(
         <>
             <div className="main_div">
-                <Navbar/>
-
+                <Navbar />
                 <div className="show_data">
             
                     <div className = "eachitem">
