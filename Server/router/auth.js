@@ -38,21 +38,10 @@ router.post('/signUp', async (req,res) => {
             return res.status(422).send({ error: "password are not matching!"});
         } 
         else{
-            const user = new User({fname, lname, email,phone, profession, salary, password, cpassword});
-
-
-            // const token = await user.generateAuthToken();
-
-            // res.cookie("jwtRegister", token, {
-            //     expires: new Date(Date.now() + 25892000000),
-            //     httpOnly: true
-            // })
-
-            const registered = await user.save();
+            const user = await new User({fname, lname, email,phone, profession, salary, password, cpassword}).save();
 
             res.status(201).send({ message: "User sucessfully register."});  
-        }
-        
+        }       
     } 
     catch (err) {
         console.log(err);
@@ -61,7 +50,6 @@ router.post('/signUp', async (req,res) => {
 })
 
 //login route
-
 router.post('/signIn', async (req,res) => {
    try{
         let token ;
@@ -83,6 +71,7 @@ router.post('/signIn', async (req,res) => {
                 expires: new Date(Date.now() + 3600000),
                 httpOnly: true
             });
+
             if(!isMatch){
                 res.status(400).send({ error: "Invalid Credientials!"});
             }
@@ -98,7 +87,7 @@ router.post('/signIn', async (req,res) => {
    }
 })
 
-//get user
+//get user for edit
 router.get('/editUser/:id',async (req,res) => {
     
     try{
@@ -145,10 +134,29 @@ router.delete('/deleteUser/:id',async (req,res) => {
     };
 });
 
-
+//for deshboard authentication
 router.get('/dashboard', authenticate, (req,res) => {
-    console.log("hello my about");
     res.send(req.authenticateUser);
+});
+
+//for logout
+router.get('/logout',authenticate, async (req,res) => {
+    try{
+        //remove token from database
+        req.authenticateUser.Tokens = req.authenticateUser.Tokens.filter((ele) => {
+            return ele.token !== req.token
+        })
+
+        //clear cookie
+        res.clearCookie("jwtLogin");
+
+        await req.authenticateUser.save();
+        res.status(200).send("User Logout");
+    }
+    catch(err){
+        res.status(500).send(err);
+    }
+    
 });
 
 

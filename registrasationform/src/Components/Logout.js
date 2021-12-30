@@ -8,14 +8,16 @@ const Logout = () => {
     const history = useHistory();
     useEffect(() => {
         Axios.get(`/logout`)
+        .then(() => {
+            history.push('/Login');
+        })
         .catch(err => {
             console.log(err);
-            history.push('/Login');
         })
     }, [])
     return (
         <>
-            {/* <h1>Logout Page</h1> */}
+            <h1 style={{"textAlign": "center"}}>Logout Page</h1>
         </>
     )
 }
