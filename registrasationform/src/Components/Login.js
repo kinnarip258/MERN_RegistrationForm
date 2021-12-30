@@ -31,7 +31,7 @@ const Login = () => {
         <>
             <div className="main_div">
                 <div className="header_div">
-                    <h1>Login</h1>
+                    <h1>Login Form</h1>
                 </div>
                 <hr />
                 <div className="form_div">

@@ -1,18 +1,9 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-
+import Navbar from "./Navbar"
 const Home = () => {
     return (
         <>
-            <div className="nav_div">
-                
-                <NavLink to = '/Registration'>Registration</NavLink>
-                    
-                <NavLink to = '/Login'>Login</NavLink>
-
-                <NavLink to = '/Dashboard'>Dashboard</NavLink>
-    
-            </div>
+            <Navbar />
             <div className="header_div">
                 <h1>Welcome Home</h1>
             </div>

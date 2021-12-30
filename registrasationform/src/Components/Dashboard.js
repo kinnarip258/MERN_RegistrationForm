@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const Deshboard = () => {
     //store the user data
@@ -37,19 +38,11 @@ const Deshboard = () => {
     return(
         <>
             <div className="main_div">
+                <Navbar/>
 
-                <div className="header_div">
-                    <table style={{"width" : "100%"}}>
-                        <td><NavLink to = "/">Home</NavLink></td>                
-                        <td><NavLink to = "/Registration">Registration</NavLink></td>
-                        <td><NavLink to = "/Login">Login</NavLink></td>
-                    </table>   
-                </div>
-                
                 <div className="show_data">
             
                     <div className = "eachitem">
-
                             <div className="header_div">
                                 <h1>{` Welcome ${fname} ${lname}`}</h1>
                             </div>
