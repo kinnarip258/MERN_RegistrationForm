@@ -14,7 +14,7 @@ router.get('/getUsers', async (req,res) => {
         res.send((users));
     }
     catch(err) {
-        console.log("error: ", err)
+        console.log("error: ", err);
         res.send("error" + err);
     }
 });
@@ -103,12 +103,14 @@ router.get('/editUser/:id',async (req,res) => {
 
 //update user
 router.put('/updateUser/:id', async (req,res) => {
-   
     try{
         const user = await User.findById(req.params.id);
         user.fname = req.body.fname;
         user.lname = req.body.lname;
         user.email= req.body.email;
+        user.salary= req.body.salary;
+        user.phone= req.body.phone;
+        user.profession= req.body.profession;
         user.password = req.body.password;
         user.cpassword = req.body.cpassword;
         
@@ -150,7 +152,6 @@ router.get('/logout',authenticate, async (req,res) => {
         res.clearCookie("jwtLogin");
         await req.authenticateUser.save();
         res.status(200).send("User Logout");
-        res.send(req.authenticateUser);
     }
     catch(err){
         res.status(500).send(err);
@@ -158,5 +159,14 @@ router.get('/logout',authenticate, async (req,res) => {
     
 });
 
+router.get('/isLogged', authenticate , async (req,res) => {
+    try{
+        req.token !== undefined;
+        res.status(200).send("User Not Logged In");
+    }
+    catch(err){
+        res.status(500).send(err);
+    }
+})
 
 module.exports = router;

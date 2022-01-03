@@ -3,9 +3,12 @@ import { NavLink , useHistory} from "react-router-dom";
 import Axios from "axios";
 import { useFormik } from "formik";
 import Navbar from "./Navbar";
+import { userContext } from "../App";
 
 const Login = () => {
 
+    //for login-logout
+    const {state, dispatch} = useContext(userContext);
     //navigate the page
     const history = useHistory();
     
@@ -18,7 +21,9 @@ const Login = () => {
             //login the user
             Axios.post(`/signIn`,values)
                 .then(() => {
+                   
                     alert("Login sucessfully!");
+                    dispatch({type: 'User', payload: true})
                     history.push('/Dashboard');  
                 })
                 .catch(err => {

@@ -3,11 +3,14 @@ import { NavLink } from "react-router-dom";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import Navbar from "./Navbar";
+import { userContext } from "../App";
 
 
 
 const Deshboard = () => {
     
+    //for login-logout
+    const {state, dispatch} = useContext(userContext);
     //store the user data
     const [employeeList, setEmployeeList] = useState([]);
     //destructuring the user data

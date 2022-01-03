@@ -19,7 +19,6 @@ app.use(cookieParser());
 //link the router file
 app.use(require('./router/auth'));
 
-
 //port of the server
 const PORT = process.env.PORT;
 
