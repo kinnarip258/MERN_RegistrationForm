@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink , useHistory} from "react-router-dom";
 import Axios from "axios";
 import { useFormik } from "formik";
 import Navbar from "./Navbar";
 
 const Login = () => {
+
     //navigate the page
     const history = useHistory();
     
@@ -27,6 +28,15 @@ const Login = () => {
             }
     })
     
+    useEffect(() => {
+        Axios.get(`/isLogged`)
+        .then(() => {
+            history.push('/Dashboard');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [])
 
     return(
         <>
@@ -35,7 +45,6 @@ const Login = () => {
                 <div className="header_div">
                     <h1>Login Form</h1>
                 </div>
-                {/* <hr /> */}
                 <div className="form_div">
                     <form onSubmit={formik.handleSubmit}>
                         <label>Username </label> 

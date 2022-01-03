@@ -1,20 +1,21 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useContext} from 'react'
 import Axios from "axios";
 import { useHistory } from 'react-router-dom';
 
-
 const Logout = () => {
-
+    
     const history = useHistory();
     useEffect(() => {
+        //for logout
         Axios.get(`/logout`)
         .then(() => {
-            window.document.location('/Login');
+            history.push('/Login');
         })
         .catch(err => {
             console.log(err);
-            history.push('/Login')
+            history.push('/Login');
         })
+
     }, [])
     return (
         <>

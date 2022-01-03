@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import Axios from 'axios';
 import {useHistory, NavLink} from "react-router-dom";
 import {useFormik} from "formik";
 import queryString from "query-string";
 import Navbar from './Navbar';
+
 const Register = () => {
     //navigate the page
     const history = useHistory();
@@ -19,6 +20,7 @@ const Register = () => {
         onSubmit: (values) =>  {
             //update the user data
             if(id){ 
+                console.log("updated values", values)
                 Axios.put(`/updateUser/${id}`, values)
                 .then(() => {
                     history.push('/Dashboard');
@@ -66,7 +68,7 @@ const Register = () => {
             <div className="header_div">
                 <h1>Employee Form</h1>
             </div>
-            {/* <hr /> */}
+
              <div className="form_div">
                 <form className="register_form" id="register_form" onSubmit={formik.handleSubmit}>
                     <label>First Name </label> 

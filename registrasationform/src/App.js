@@ -1,27 +1,18 @@
-import React from "react"; 
-import Home from "./Components/Home";
-import Login from './Components/Login';
-import Dashboard from './Components/Dashboard';
-import Error404 from "./Components/404";
-import Register from "./Components/Register";
-import Logout from "./Components/Logout";
+import React, { createContext, useReducer } from "react"; 
 import "./App.css";
-import { Switch,Route } from "react-router-dom";
+import AppRouters from "./router/appRouters";
+import store from './store';
+import { Provider } from "react-redux";
 
 const App = () => {
     
+    store.subscribe(() => console.log(store.getState()));
     return (
-        <>
-            
-            <Switch>
-                <Route exact path = "/"><Home /></Route>
-                <Route exact path = "/Registration"><Register /></Route>
-                <Route exact path = "/editUser/:id"><Register /></Route>
-                <Route exact path = "/Login"><Login /></Route> 
-                <Route exact path = "/Dashboard"><Dashboard/></Route>
-                <Route exact path = "/Logout"><Logout/></Route>
-                <Route ><Error404 /></Route>
-            </Switch>
+        <>  
+            <Provider store= {store}>
+                <AppRouters/> 
+            </Provider>
+             
         </>
     )
 }
