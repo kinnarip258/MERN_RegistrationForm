@@ -1,25 +1,52 @@
 import React, { createContext, useReducer } from "react"; 
 import "./App.css";
-import AppRouters from "./router/appRouters";
-import store from './store';
-import { Provider } from "react-redux";
-import { initialState, Reducers } from "./reducers/userReducers";
+import Home from "./Components/Home";
+import Login from './Components/Login';
+import Dashboard from './Components/Dashboard';
+import Error404 from "./Components/Error";
+import Register from "./Components/Register";
+import Logout from './Components/Logout';
+import ProtectedRoute from "./Components/ProtectedRoute";
+import { Switch,Route, NavLink } from "react-router-dom";
+import {Reducers, initialState} from './reducers/userReducers';
 
-export const userContext = createContext();
+export const loginContext = createContext();
 
 const App = () => {
-    
-    store.subscribe(() => console.log(store.getState()));
-    const [state, dispatch] = useReducer(Reducers, initialState);
-    
+
+    const [state, dispatch] = useReducer(Reducers, initialState)
+    console.log("state: ", state)
     return (
-        <>  
-            <userContext.Provider value={state, dispatch}>
-                <Provider store= {store}>
-                    <AppRouters/> 
-                </Provider>
-            </userContext.Provider>
-             
+        <> 
+
+        <loginContext.Provider value = {state, dispatch}>
+
+           <div className="nav_div">
+                        
+                <NavLink to = '/'> Home </NavLink>
+       
+                <NavLink to = '/Registration'>Registration</NavLink>
+                 
+                <NavLink to = '/Dashboard'>Dashboard</NavLink>
+            
+                <NavLink to = '/Logout'> Logout</NavLink> 
+                
+                <NavLink to = '/Login'> Login </NavLink>
+                        
+            </div>
+
+            <hr/>  
+                                         
+            <Switch>
+                <Route exact path = "/Registration" component={Register} />
+                <Route exact path = "/editUser/:id" component={Register} />
+                <Route exact path = "/" component={Home} />
+                <ProtectedRoute exact path = "/Login" component={Login} authStatus={!state} />
+                <ProtectedRoute exact path = "/Logout" component={Logout} authStatus={state}/>
+                <ProtectedRoute exact path= "/Dashboard" component={Dashboard} authStatus={state}/>
+                <Route component={Error404} />    
+            </Switch> 
+        </loginContext.Provider>    
         </>
     )
 }

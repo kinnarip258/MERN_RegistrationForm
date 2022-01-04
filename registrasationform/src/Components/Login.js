@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { NavLink , useHistory} from "react-router-dom";
 import Axios from "axios";
 import { useFormik } from "formik";
-import Navbar from "./Navbar";
-import { userContext } from "../App";
+import { loginContext } from "../App";
+
 
 const Login = () => {
 
-    //for login-logout
-    const {state, dispatch} = useContext(userContext);
+    const dispatch = useContext(loginContext);
     //navigate the page
     const history = useHistory();
     
@@ -21,9 +20,8 @@ const Login = () => {
             //login the user
             Axios.post(`/signIn`,values)
                 .then(() => {
-                   
+                    dispatch({type: 'LoginUser', payload: true})
                     alert("Login sucessfully!");
-                    dispatch({type: 'User', payload: true})
                     history.push('/Dashboard');  
                 })
                 .catch(err => {
@@ -33,20 +31,9 @@ const Login = () => {
             }
     })
     
-    useEffect(() => {
-        Axios.get(`/isLogged`)
-        .then(() => {
-            history.push('/Dashboard');
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }, [])
-
     return(
         <>
             <div className="main_div">
-            <Navbar/>
                 <div className="header_div">
                     <h1>Login Form</h1>
                 </div>

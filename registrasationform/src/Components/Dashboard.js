@@ -2,15 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-import Navbar from "./Navbar";
-import { userContext } from "../App";
-
 
 
 const Deshboard = () => {
     
-    //for login-logout
-    const {state, dispatch} = useContext(userContext);
     //store the user data
     const [employeeList, setEmployeeList] = useState([]);
     //destructuring the user data
@@ -26,7 +21,7 @@ const Deshboard = () => {
         })
         .catch(err => {
             console.log(err);
-            history.push('/Login')
+            history.push("/Login")
         })
         
     }, [])
@@ -46,7 +41,6 @@ const Deshboard = () => {
     return(
         <>
             <div className="main_div">
-                <Navbar />
                 <div className="show_data">
             
                     <div className = "eachitem">

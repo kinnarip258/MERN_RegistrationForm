@@ -159,14 +159,4 @@ router.get('/logout',authenticate, async (req,res) => {
     
 });
 
-router.get('/isLogged', authenticate , async (req,res) => {
-    try{
-        req.token !== undefined;
-        res.status(200).send("User Not Logged In");
-    }
-    catch(err){
-        res.status(500).send(err);
-    }
-})
-
 module.exports = router;

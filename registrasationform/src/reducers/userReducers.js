@@ -1,10 +1,9 @@
-export const initialState = null;
+export const initialState = false;
 
 //for user login logout toggle
 export const Reducers = (state, action) => {
-    if(action.type === 'User'){
+    if(action.type === 'LoginUser'){
         return action.payload;
     }
-
     return state;
 }

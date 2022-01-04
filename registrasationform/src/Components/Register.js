@@ -1,15 +1,14 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect} from 'react'
 import Axios from 'axios';
 import {useHistory, NavLink} from "react-router-dom";
 import {useFormik} from "formik";
 import queryString from "query-string";
-import Navbar from './Navbar';
 
 const Register = () => {
     //navigate the page
     const history = useHistory();
     //for store the edited user data
-    const [editedObject,setEditedObject ] = useState([]);
+    const [editedObject,setEditedObject] = useState([]);
     //get edited user id
     const {id} = queryString.parse(window.location.search);
     const formik = useFormik({
@@ -64,7 +63,6 @@ const Register = () => {
 
     return (
         <div>
-        <Navbar/>
             <div className="header_div">
                 <h1>Employee Form</h1>
             </div>
