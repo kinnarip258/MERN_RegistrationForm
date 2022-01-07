@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import Axios from 'axios';
 import {useHistory, NavLink} from "react-router-dom";
 import {useFormik} from "formik";
 import queryString from "query-string";
+import { useDispatch, useSelector } from 'react-redux';
+import { EditUser, RegisterUser, SaveUpdate } from '../actions/userActions';
 
 const Register = () => {
     //navigate the page
@@ -11,55 +12,49 @@ const Register = () => {
     const [editedObject,setEditedObject] = useState([]);
     //get edited user id
     const {id} = queryString.parse(window.location.search);
+
+    //dispatch the api request
+    const ApiDispatch = useDispatch();
+    //get response of the api request
+    const user = useSelector(state => state.user)
     const formik = useFormik({
+        //initialValues form input field
         initialValues: {
             fname:"",  lname:"", email:"", phone:"", profession:"", salary:"", password:"" , cpassword:"", 
         },
 
+        //when the form submitted
         onSubmit: (values) =>  {
             //update the user data
             if(id){ 
-                console.log("updated values", values)
-                Axios.put(`/updateUser/${id}`, values)
-                .then(() => {
-                    history.push('/Dashboard');
-                })
-                .catch(err => {
-                    console.log("error: " + err)
-                })
+                ApiDispatch(SaveUpdate(id,values))
+                //navigate to about component
+                history.push('/About')
             }
             //add new user
             else{
-                Axios.post(`/signUp`, values)
-                .then((res) => {
-                    alert("Registration Successfully");
-                    history.push('/Login');
-                })
-                .catch(err => {
-                    alert("Invalid Registration");
-                    console.log(err)
-                })
+                ApiDispatch(RegisterUser(values))
+                //resetform fields
+                formik.resetForm();
             }
         }     
     });
     //for getting the edited user data
     useEffect(() => {
         if(id) {
-            Axios.get(`/editUser/${id}`)
-            .then(res => {
-                setEditedObject(res.data);
-            })
-            .catch(err => {
-                console.log("error: " + err);
-            })
+            ApiDispatch(EditUser(id))
+            //setvalues to useState
+            setEditedObject(user);    
         }
-    }, [id]);
+    },[id]);
+
     //set edited user data values
     useEffect(() => {
         if(id && editedObject) {
+            //setvalues
             formik.setValues(editedObject)
         }
-    }, [editedObject])
+    },[editedObject])
 
     return (
         <div>
@@ -93,10 +88,10 @@ const Register = () => {
                     <label>Confirm Password </label>
                     <input required onChange={formik.handleChange} value={formik.values.cpassword}  name="cpassword" type='Password' placeholder="Enter Confirm Password ..." />
 
-                    <button type="submit">{!id ? "Register" : "Update" }</button>
+                    <button type="submit">{!id ? "Register" : "Update"}</button>
                 </form>
             </div>
-
+            {/*Navigate to Login Component */}
             <div className="sign_div">
                 <NavLink to = "/Login">Already Sign In</NavLink>
             </div>
@@ -104,4 +99,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default React.memo(Register);

@@ -4,10 +4,10 @@ const Home = () => {
     return (
         <>
             <div className="header_div">
-                <h1>Welcome Home</h1>
+                <h1> Welcome </h1>
             </div>
         </>
     )
 }
 
-export default Home;
+export default React.memo(Home);

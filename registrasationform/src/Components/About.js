@@ -1,42 +1,33 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect} from "react";
 import { NavLink } from "react-router-dom";
-import Axios from "axios";
 import { useHistory } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import {getUserDetailsUser, DeleteUser} from "../actions/userActions";
 
 const Deshboard = () => {
     
-    //store the user data
-    const [employeeList, setEmployeeList] = useState([]);
-    //destructuring the user data
-    const {_id, fname, lname, email, phone, profession, salary} = employeeList;
+    //dispatch the api request
+    const ApiDispatch = useDispatch();
+    //get response of the api request
+    const user = useSelector(state => state.user)
+
     //navigate the page
     const history = useHistory();
 
-    //get the employee data
     useEffect(() => {
-        Axios.get(`/dashboard`)
-        .then((res) => {
-            setEmployeeList(res.data)
-        })
-        .catch(err => {
-            console.log(err);
-            history.push("/Login")
-        })
-        
+        //dispatch getuserdetails request 
+        ApiDispatch(getUserDetailsUser())
     }, [])
     
     //delete the user
     const handleDelete = (id) => {
-        Axios.delete(`/deleteUser/${id}`)
-        .then(
-            history.push('/Registration')
-        )
-        .catch(err => {
-            console.log("error" + err);
-        })
-        
+        //dispatch deleteuser request
+        ApiDispatch(DeleteUser(id));
+        history.push("/Registration")
     }
+   
+    //destructuring the user data
+    const {_id,fname, lname, email, phone, profession, salary} = user;
 
     return(
         <>
@@ -45,7 +36,7 @@ const Deshboard = () => {
             
                     <div className = "eachitem">
                             <div className="header_div">
-                                <h1>{` Welcome ${fname} ${lname}`}</h1>
+                                <h1>{`${fname} ${lname}`}</h1>
                             </div>
 
                             <table>
@@ -84,6 +75,8 @@ const Deshboard = () => {
             </div>
         </>
     )
-}
 
-export default Deshboard;
+
+};
+
+export default React.memo(Deshboard);

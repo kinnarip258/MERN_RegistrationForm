@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
 
-
 const Authenticate = async (req,res, next) => {
     try{
         //get cookie
@@ -10,7 +9,7 @@ const Authenticate = async (req,res, next) => {
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY)
         //find the authenticateuser
         const authenticateUser = await User.findOne({_id: verifyToken._id, "Tokens.token": token})
-    
+        //if user is not authenticate
         if(!authenticateUser){
             throw new Error('User not found')
         }

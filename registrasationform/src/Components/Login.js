@@ -1,36 +1,25 @@
-import React, { useContext } from "react";
-import { NavLink , useHistory} from "react-router-dom";
-import Axios from "axios";
+import React from "react";
+import { NavLink} from "react-router-dom";
 import { useFormik } from "formik";
-import { loginContext } from "../App";
+import { useDispatch } from "react-redux";
+import { LoginUser} from "../actions/userActions";
 
 
 const Login = () => {
 
-    const dispatch = useContext(loginContext);
-    //navigate the page
-    const history = useHistory();
-    
+    //dispatch the api request
+    const ApiDispatch = useDispatch();
     const formik = useFormik({
         initialValues: {
             email: "", password: ""
         },
 
         onSubmit: (values) => {
+
             //login the user
-            Axios.post(`/signIn`,values)
-                .then(() => {
-                    dispatch({type: 'LoginUser', payload: true})
-                    alert("Login sucessfully!");
-                    history.push('/Dashboard');  
-                })
-                .catch(err => {
-                    alert("Invalid Credientials");
-                    console.log(err);
-                })
-            }
+            ApiDispatch(LoginUser(values))     
+        }
     })
-    
     return(
         <>
             <div className="main_div">
@@ -59,4 +48,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default React.memo(Login);

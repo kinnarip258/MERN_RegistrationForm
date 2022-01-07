@@ -1,31 +1,23 @@
-import React, {useEffect, useContext} from 'react'
-import Axios from "axios";
-import { useHistory } from 'react-router-dom';
-import {loginContext} from '../App'
+import React, {useEffect} from 'react'
+import {useDispatch} from 'react-redux'
+import {LogoutUser} from "../actions/userActions"
+
 
 const Logout = () => {
     
-    const dispatch = useContext(loginContext);
+    //dispatch the api request
+    const ApiDispatch = useDispatch();
 
-    const history = useHistory();
     useEffect(() => {
-        //for logout
-        Axios.get(`/logout`)
-        .then(() => {
-            dispatch({type: 'LoginUser', payload: false})
-            history.push('/Login');
-        })
-        .catch(err => {
-            console.log(err);
-            history.push('/Login');
-        })
+        //dispatch logout request
+        ApiDispatch(LogoutUser());
 
     }, [])
+
     return(
         <>
-
         </>
     )
 }
 
-export default Logout
+export default React.memo(Logout);

@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken");
 const authenticate = require("../middleware/authenticate");
-
+const sendMail = require("../mail/nodemailer")
 require('../db/conn');
 const User = require('../models/userSchema');
 
@@ -38,8 +37,9 @@ router.post('/signUp', async (req,res) => {
             return res.status(422).send({ error: "password are not matching!"});
         } 
         else{
-            const user = await new User({fname, lname, email,phone, profession, salary, password, cpassword}).save();
-
+            
+            const user = await new User({fname, lname, email, phone, profession, salary, password, cpassword}).save();
+            sendMail({toUser: user.email, user: user})
             res.status(201).send({ message: "User sucessfully register."});  
         }       
     } 
@@ -72,6 +72,8 @@ router.post('/signIn', async (req,res) => {
                 httpOnly: true
             });
 
+
+
             if(!isMatch){
                 res.status(400).send({ error: "Invalid Credientials!"});
             }
@@ -92,7 +94,6 @@ router.get('/editUser/:id',async (req,res) => {
     
     try{
         const user = await User.findById(req.params.id)
-        console.log("get request for a emp", user);
         res.send(user)
     }
     catch(err) {
@@ -124,9 +125,10 @@ router.put('/updateUser/:id', async (req,res) => {
 });
 
 //delete user
-router.delete('/deleteUser/:id',async (req,res) => {
+router.delete('/deleteUser/:id',authenticate, async (req,res) => {
     
     try{
+        res.clearCookie("jwtLogin");
         const user = await User.findById(req.params.id).remove();
         res.send(user)
     }
@@ -137,7 +139,7 @@ router.delete('/deleteUser/:id',async (req,res) => {
 });
 
 //for deshboard authentication
-router.get('/dashboard', authenticate, (req,res) => {
+router.get('/about', authenticate, (req,res) => {
     res.send(req.authenticateUser);
 });
 
