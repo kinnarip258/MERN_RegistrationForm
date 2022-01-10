@@ -3,7 +3,7 @@ import Axios from 'axios';
 //Register User action
 export const RegisterUser = (values) => {
     return (dispatch) => {
-        Axios.post(`/signUp`, values) 
+        Axios.post(`/signUp`, values)
         .then(res => {
             const userData = res.data;
             console.log("userData from actions register: ", userData);
@@ -105,7 +105,3 @@ export const LogoutUser = () => {
         });
     }
 }
-
-
-
-

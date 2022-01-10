@@ -1,8 +1,10 @@
+
 const initialState = {
     user: [],
-    LoginState: false
+    LoginState: false 
 }
-
+console.log("token ", initialState.user.Tokens)
+console.log("cookie ", document.cookie)
 const ApiReducers = (state = initialState, action) => {
     switch (action.type) {
 
@@ -23,7 +25,8 @@ const ApiReducers = (state = initialState, action) => {
             
             return {
                 ...state,
-                LoginState: true,    
+                user: action.payload,
+                LoginState: true   
             }
 
         case "Edit_User":
@@ -36,22 +39,22 @@ const ApiReducers = (state = initialState, action) => {
         case "Delete_User":
             
             return  {
-                ...state,
-                LoginState: false,     
+                ...state,   
             }
 
         case "getUserDetails_User":
         
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                LoginState: true
             }
 
         case "Logout_User":
             
             return {
                 ...state, 
-                LoginState: false ,   
+                LoginState: false
             }
 
         default:

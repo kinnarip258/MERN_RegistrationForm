@@ -10,4 +10,4 @@ const Error404 = () => {
     )
 }
 
-export default React.memo(Error404);
+export default Error404;

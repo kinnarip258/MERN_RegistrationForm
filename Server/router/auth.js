@@ -11,10 +11,12 @@ router.get('/getUsers', async (req,res) => {
     try{
         const users = await User.find()
         res.send((users));
+        res.json({msg: "get users"})
     }
     catch(err) {
         console.log("error: ", err);
         res.send("error" + err);
+        res.json({err: "not LoggedIn"})
     }
 });
 
@@ -39,7 +41,7 @@ router.post('/signUp', async (req,res) => {
         else{
             
             const user = await new User({fname, lname, email, phone, profession, salary, password, cpassword}).save();
-            sendMail({toUser: user.email, user: user})
+            //sendMail({toUser: user.email, user: user})
             res.status(201).send({ message: "User sucessfully register."});  
         }       
     } 
@@ -72,12 +74,11 @@ router.post('/signIn', async (req,res) => {
                 httpOnly: true
             });
 
-
-
             if(!isMatch){
                 res.status(400).send({ error: "Invalid Credientials!"});
             }
             else {
+                res.send(userLogin);
                 res.send({message: "user SignIn sucessfully!"});
             }
         }
@@ -161,4 +162,9 @@ router.get('/logout',authenticate, async (req,res) => {
     
 });
 
+
 module.exports = router;
+//{
+//     expires: new Date(Date.now() + 60000),
+//     httpOnly: true
+// }

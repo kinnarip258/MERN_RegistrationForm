@@ -20,6 +20,7 @@ const Login = () => {
             ApiDispatch(LoginUser(values))     
         }
     })
+
     return(
         <>
             <div className="main_div">
@@ -48,4 +49,4 @@ const Login = () => {
     )
 }
 
-export default React.memo(Login);
+export default Login;

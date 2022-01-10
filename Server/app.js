@@ -10,14 +10,16 @@ dotenv.config({path: './config.env'});
 //database connection path
 require('./db/conn');
 
+//passes the cookie which is realated to user
+app.use(cookieParser());
+
 //convert data to json data
 app.use(express.json());
 
-//passes the cookie which is realated to user
-app.use(cookieParser());
-    
+
 //link the router file
 app.use(require('./router/auth'));
+
 
 //port of the server
 const PORT = process.env.PORT;

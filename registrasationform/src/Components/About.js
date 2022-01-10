@@ -18,7 +18,7 @@ const Deshboard = () => {
         //dispatch getuserdetails request 
         ApiDispatch(getUserDetailsUser())
     }, [])
-    
+ 
     //delete the user
     const handleDelete = (id) => {
         //dispatch deleteuser request
@@ -79,4 +79,4 @@ const Deshboard = () => {
 
 };
 
-export default React.memo(Deshboard);
+export default Deshboard;

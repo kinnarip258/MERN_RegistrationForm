@@ -5,3 +5,4 @@ export const getUserDetailsUser = "getUserDetails_User";
 export const EditUser = "Edit_User";
 export const DeleteUser = "Delete_User";
 export const SaveUpdate = "Save_Update";
+export const RedirectUser = "Redirect_User"
